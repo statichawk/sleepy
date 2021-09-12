@@ -43,8 +43,8 @@ client.on('interactionCreate', async interaction => {
 
 	} else if (commandName === 'sleepcall') {
         const userID = interaction.user.id //get userID
-        var numbs = interaction.options.getInteger('timeout');
-        var chars = interaction.options.getString('timescale')
+        var numbs = interaction.options.getInteger('time');
+        var chars = interaction.options.getString('scale')
         var guildID = interaction.guildId;
         console.log('The time chars is: ',chars);
         console.log('The time numbs is: ',numbs);

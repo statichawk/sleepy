@@ -4,24 +4,25 @@ const { Routes } = require('discord-api-types/v9');
 const { clientId, guildId, token } = require('./config.json');
 
 const commands = [
-	new SlashCommandBuilder().setName('ping')
-    .setDescription('Replies with pong!'),
 
 	new SlashCommandBuilder().setName('sleepcall')
-        .setDescription('Creates a Sleep Call Timer')
+        .setDescription('Creates a Sleep Timer')
         .addIntegerOption(option => option
-            .setName('timeout')
-            .setDescription("The amount of time until you with to be disconnected (THIS IS A NUMBER ONLY)")
+            .setName('time')
+            .setDescription("The length of time until disconnect (Number Only)")
             .setRequired(true))
-            .addStringOption(option => option.setName('timescale')
-            .setDescription("The time length modifier (THIS IS MINUTES or HOURS")
+            .addStringOption(option => option.setName('scale')
+            .setDescription("Either Hours or Minutes")
             .setRequired(true)
             .addChoice('Minute','m')
             .addChoice('Hour','h')
             ),
+    
+    new SlashCommandBuilder().setName('currenttimers')
+    .setDescription('Lists any sleep timers you have going'),
 
 	new SlashCommandBuilder().setName('sleepcallcancel')
-    .setDescription('Deletes a Sleep Call timer'),
+    .setDescription('Cancels All Your Sleep Timers'),
 ]
 	.map(command => command.toJSON());
 
