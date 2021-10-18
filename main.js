@@ -4,12 +4,14 @@ const { token } = require('./config.json');
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+//create a global map
+const map1 = new Map();
 
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
 	console.log('Sleepy is online!');
     //Set the status of the bot
-    client.user.setActivity("Helping the world stay asleep.", {type: "LISTENING"});
+    client.user.setActivity(`Sleeping in ${client.guilds.cache.size} servers. /help`, {type: "PLAYING"});
 });
 
 async function disconnectUser(userID, interaction){
@@ -31,32 +33,34 @@ function toMS(number,modifier){
 }
 
 client.on('interactionCreate', async interaction => {
-    client.user.setActivity("Helping the world stay asleep.", {type: "LISTENING"});
+    client.user.setActivity(`Sleeping in ${client.guilds.cache.size} servers. /help`, {type: "PLAYING"});
 	if (!interaction.isCommand()) return;
 
 	const { commandName } = interaction;
 
-	if (commandName === 'ping') {
-		await interaction.reply('Pong!');
-
-
-
-	} else if (commandName === 'sleepcall') {
+	if (commandName === 'sleepcall') {
         const userID = interaction.user.id //get userID
-        var numbs = interaction.options.getInteger('time');
-        var chars = interaction.options.getString('scale')
+        var numbs = interaction.options.getInteger('timeout');
+        var chars = interaction.options.getString('timescale')
         var guildID = interaction.guildId;
         console.log('The time chars is: ',chars);
         console.log('The time numbs is: ',numbs);
         ms = toMS(numbs,chars);
-        setTimeout(disconnectUser.bind(this, userID, interaction), ms);
-		await interaction.reply('OK! '+ interaction.user.tag + ', you will be disconnected in ' + numbs + chars+ '. Goodnight and sleep well :)');
+        var timer;
+        map1.set(userID, timer = setTimeout(disconnectUser.bind(this, userID, interaction), ms));
+        console.log('using map!')
+		await interaction.reply('OK! You will be disconnected in ' + numbs + chars+ '.');
 
 
 
 	} else if (commandName === 'sleepcallcancel') {
-		await interaction.reply('User info.');
-	}
+		clearTimeout(map1.get(interaction.user.id));
+        await interaction.reply('Your sleep call timer has been canceled. (this will only cancel your most recent timer.');
+	} else if(commandName === 'help'){
+        await interaction.reply('For help, bot invite link, updates and more, please visit the support server! https://discord.gg/x25eGNyQ5Y')
+    } else if(commandName === 'commands'){
+        await interaction.reply('Acceptable commands are: /sleepcall, /sleepcallcancel, /help, /commands')
+    }
 });
 
 // Login to Discord with your client's token
