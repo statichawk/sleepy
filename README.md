@@ -1,5 +1,5 @@
 
-# ***ATTENTION ALL SLEEPCALLERS***
+# ***ATTENTION ALL DISCORD USERS***
 ### **The moment you have been waiting for is finally here!**
 
 Starting now the @Sleepy#5718 bot is up and running! Auto disconnect yourself after a set period of time with the all new ***SLASH COMMANDS***
